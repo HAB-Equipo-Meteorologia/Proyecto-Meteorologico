@@ -3,6 +3,7 @@ CREATE DATABASE datos_AEMET;
 CREATE TABLE comunidades_autonomas (
   id INT NOT NULL,
   nombre VARCHAR(100),
+  codigo VARCHAR(100)
   PRIMARY KEY (id)
 );
 
@@ -41,69 +42,56 @@ CREATE TABLE municipios (
   FOREIGN KEY (provincia_id) REFERENCES provincias (id)
 );
 
-CREATE TABLE temperatura (
-  cod_estacion VARCHAR(10) NOT NULL,
-  fecha DATE NOT NULL,
-  temp_media REAL,
-  temp_min REAL,
-  hora_temp_min TIME,
-  temp_max REAL,
-  hora_temp_max TIME,
-  PRIMARY KEY (cod_estacion, fecha),
-  FOREIGN KEY (cod_estacion) REFERENCES estaciones(idema) ON DELETE CASCADE
+CREATE TABLE temperatura_historico (
+  uuid UUID NOT NULL DEFAULT gen_random_uuid(),
+  fecha DATE,
+  idema VARCHAR(100),
+  tmed REAL,
+  tmin REAL,
+  hotatmin TIME,
+  tmax REAL,
+  horatmax TIME,
+  extracted TIMESTAMP,
+  PRIMARY KEY (uuid),
+  FOREIGN KEY (idema) REFERENCES estaciones(idema) ON DELETE CASCADE
 );
 
 
-CREATE TABLE precipitaciones (
-  cod_estacion VARCHAR(10) NOT NULL,
+CREATE TABLE lluvia_historico (
+  uuid UUID NOT NULL DEFAULT gen_random_uuid(),
   fecha DATE NOT NULL,
-  precipitacion REAL,
-  PRIMARY KEY (cod_estacion, fecha),
-  FOREIGN KEY (cod_estacion) REFERENCES estaciones(idema) ON DELETE CASCADE   
+  idema VARCHAR(100),
+  prec REAL,
+  extracted TIMESTAMP,
+  PRIMARY KEY (uuid),
+  FOREIGN KEY (idema) REFERENCES estaciones(idema) ON DELETE CASCADE   
 );
 
 
-CREATE TABLE humedad (
-  cod_estacion VARCHAR(10) NOT NULL,
+CREATE TABLE humedad_historico (
+  uuid UUID NOT NULL DEFAULT gen_random_uuid(),
   fecha DATE NOT NULL,
-  humedad_max INT,
-  hora_hum_max VARCHAR(10),
-  humedad_min INT,
-  hora_hum_min TIME,
-  humedad_media INT,
-  PRIMARY KEY (cod_estacion, fecha),
-  FOREIGN KEY (cod_estacion) REFERENCES estaciones(idema) ON DELETE CASCADE
+  idema VARCHAR(100),
+  hrMax INT,
+  horaHrMax VARCHAR(10),
+  hrMin INT,
+  horaHrMin TIME,
+  hrMedia INT,
+  extracted TIMESTAMP,
+  PRIMARY KEY (uuid),
+  FOREIGN KEY (idema) REFERENCES estaciones(idema) ON DELETE CASCADE
 );
 
 
-CREATE TABLE sol (
-  cod_estacion VARCHAR(10) NOT NULL,
+CREATE TABLE viento_historico (
+  uuid UUID NOT NULL DEFAULT gen_random_uuid(),
   fecha DATE NOT NULL,
-  horas_sol REAL,
-  PRIMARY KEY (cod_estacion, fecha),
-  FOREIGN KEY (cod_estacion) REFERENCES estaciones(idema) ON DELETE CASCADE   
-);
-
-
-CREATE TABLE presion (
-  cod_estacion VARCHAR(10) NOT NULL,
-  fecha DATE NOT NULL,
-  presion_max REAL,
-  hora_pres_max TIME,
-  presion_min REAL,
-  hora_pres_min TIME,
-  PRIMARY KEY (cod_estacion, fecha),
-  FOREIGN KEY (cod_estacion) REFERENCES estaciones(idema) ON DELETE CASCADE
-);
-
-
-CREATE TABLE viento (
-  cod_estacion VARCHAR(10) NOT NULL,
-  fecha DATE NOT NULL,
-  direccion VARCHAR(10),
-  velocidad_media REAL,
+  idema VARCHAR(100),
+  dir VARCHAR(10),
+  velmedia REAL,
   racha REAL,
-  hora_racha TIME,
+  horaracha TIME,
   PRIMARY KEY (cod_estacion, fecha),
+  extracted TIMESTAMP,
   FOREIGN KEY (cod_estacion) REFERENCES estaciones(idema) ON DELETE CASCADE
 );
