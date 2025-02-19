@@ -1,5 +1,4 @@
 from functools import reduce
-
 import streamlit as st
 import pandas as pd
 from folium import Map, Marker
@@ -8,52 +7,10 @@ from src.streamlit import requester
 from src.streamlit.config import com_names, provincias, estaciones, \
     comunidad_lookup, provincia_lookup, estacion_lookup
 
-st.markdown(
-    """
-    <style>
-    iframe.stCustomComponentV1 {
-        border: 11px solid #2B4677;
-        border-radius: 20px;
-        overflow: hidden;
-        width: 100%;
-        max-width: 700px;
-        margin: 0 auto;
-        display: block;
-    }
-    [class="stButtonGroup"] {
-        display: flex;
-        width: 100%;
-        justify-content: center;
-    }
-    [aria-label="button group"] {
-        margin: 10px 10px;
-    }
-    
-    [class="stSelectbox"] {
-        padding: 5px 10px;
-        width: 100%;
-        max-width: 700px;
-        margin: 0 auto;
-        display: block;
-    }
-    [class="stDateInput"] {
-        max-width: 150px;
-        margin: 0 auto;
-        display: block;
-    }
-    [aria-label="button group"] {
-        display: flex;
-        justify-content: center;
-    }
-    [aria-label="button group"] button {
-        flex-grow: 0;
-        text-align: center;
-        margin: 0 5px; /* Adds spacing between pills */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+with open("src/streamlit/styles/default.css") as f:
+    css = f.read()
+
+st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 with st.columns([1,3,1])[1]:
 

@@ -1,0 +1,39 @@
+iframe.stCustomComponentV1 {
+    border: 11px solid #2B4677;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: block;
+}
+[class="stButtonGroup"] {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+[aria-label="button group"] {
+    margin: 10px 10px;
+}
+
+[class="stSelectbox"] {
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: block;
+}
+[class="stDateInput"] {
+    max-width: 150px;
+    margin: 0 auto;
+    display: block;
+}
+[aria-label="button group"] {
+    display: flex;
+    justify-content: center;
+}
+[aria-label="button group"] button {
+    flex-grow: 0;
+    text-align: center;
+    margin: 0 5px; /* Adds spacing between pills */
+}
