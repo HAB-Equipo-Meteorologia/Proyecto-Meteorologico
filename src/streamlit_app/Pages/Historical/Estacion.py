@@ -7,7 +7,7 @@ from helpers import http_request
 from helpers.config import com_names, provincias, estaciones, \
     comunidad_lookup, provincia_lookup, estacion_lookup, api_url
 
-with open("src/streamlit/styles/default.css") as f:
+with open("src/streamlit_app/styles/default.css") as f:
     css = f.read()
 
 st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
