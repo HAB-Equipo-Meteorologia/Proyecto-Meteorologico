@@ -34,12 +34,16 @@ def get_env_var(key: str) -> str:
 
 
 api_host = get_env_var("API_HOST")
+streamlit_host = get_env_var("STREAMLIT_HOST")
 
 if DEV_MODE:
     api_port = get_env_var("API_PORT")
+    streamlit_port = get_env_var("STREAMLIT_PORT")
     api_url = f"http://{api_host}:{api_port}/api"
+    streamlit_url = f"http://{streamlit_host}:{streamlit_port}"
 else:
     api_url = f"https://{api_host}/api"
+    streamlit_url = f"https://{streamlit_host}"
 
 with open('data/locations/comunidades.json') as f:
     comunidades = json.load(f)

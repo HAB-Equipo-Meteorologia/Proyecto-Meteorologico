@@ -1,17 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.routes import db_routes
-from src.shared.helpers import get_env_var, DEV_MODE
-
-if DEV_MODE:
-    api_url = f"http://{get_env_var('API_HOST')}:{get_env_var('API_PORT')}/api"
-    streamlit_url = f"http://{get_env_var('STREAMLIT_HOST')}:{get_env_var('STREAMLIT_PORT')}"
-else:
-    api_url = f"https://{get_env_var('API_HOST')}/api"
-    streamlit_url = f"https://{get_env_var('STREAMLIT_HOST')}"
+from helpers.config import api_url, streamlit_url
 
 app = FastAPI(title="Proyecto Meteorológico API", docs_url="/api/docs", openapi_url="/api/openapi.json")
 
+# noinspection PyTypeChecker,PydanticTypeChecker
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[api_url, streamlit_url],
@@ -31,11 +25,13 @@ app.add_middleware(
     ],
 )
 
+
 @app.get("/")
 def read_root():
     return {
         "Site": f"{streamlit_url}",
         "Docs": f"{api_url}/docs"
     }
+
 
 app.include_router(db_routes.router, prefix="/api/db")

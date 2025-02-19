@@ -1,9 +1,9 @@
 import json
 import aiohttp
-from src.api.services.http_request import make_request_async
+from helpers.http_request import make_request_async
+
 
 class AEMETClient:
-
     BASE_URL = "https://opendata.aemet.es/opendata/api"
 
     ENDPOINTS = {
@@ -32,8 +32,10 @@ class AEMETClient:
         async with aiohttp.ClientSession() as session:
             response = await make_request_async(url=url, headers=self._headers, session=session, method='get')
 
-            datos = await make_request_async(url=response[0]['datos'], headers=self._headers, session=session, method='get')
-            metadatos = await make_request_async(url=response[0]['metadatos'], headers=self._headers, session=session, method='get')
+            datos = await make_request_async(url=response[0]['datos'], headers=self._headers, session=session,
+                                             method='get')
+            metadatos = await make_request_async(url=response[0]['metadatos'], headers=self._headers, session=session,
+                                                 method='get')
 
             return {
                 'datos': datos,
