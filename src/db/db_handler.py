@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine, text
-from src.shared import helpers
+from helpers.config import get_env_var
+
 
 class DBHandler:
-
     _instance = None
 
     def __new__(cls):
@@ -11,14 +11,21 @@ class DBHandler:
             cls._instance._initialize()
         return cls._instance
 
-    def _initialize(self):
+    def _initialize(
+            self,
+            user: str = None,
+            password: str = None,
+            host: str = None,
+            port: str = None,
+            dbname: str = None
+    ):
 
         try:
-            self.USER = helpers.get_env_var("DB_USER")
-            self.PASSWORD = helpers.get_env_var("DB_PASSWORD")
-            self.HOST = helpers.get_env_var("DB_HOST")
-            self.PORT = helpers.get_env_var("DB_PORT")
-            self.DBNAME = helpers.get_env_var("DB_NAME")
+            self.USER = user or get_env_var("DB_USER")
+            self.PASSWORD = password or get_env_var("DB_PASSWORD")
+            self.HOST = host or get_env_var("DB_HOST")
+            self.PORT = port or get_env_var("DB_PORT")
+            self.DBNAME = dbname or get_env_var("DB_NAME")
         except KeyError as e:
             raise ValueError(f"Missing environment variable: {str(e)}")
 
@@ -44,4 +51,12 @@ class DBHandler:
 
         with self.engine.connect() as connection:
             result = connection.execute(query, {"idema": idema, "fechaIni": fechaIni, "fechaFin": fechaFin})
+            return [dict(zip(result.keys(), row)) for row in result]
+
+    def get_estaciones_historico(self, elemento: str, fechaIni: str, fechaFin: str):
+        table_name = f"{elemento}_historico"
+        query = text(f"SELECT * FROM {table_name} WHERE fecha BETWEEN :fechaIni AND :fechaFin")
+
+        with self.engine.connect() as connection:
+            result = connection.execute(query, {"fechaIni": fechaIni, "fechaFin": fechaFin})
             return [dict(zip(result.keys(), row)) for row in result]
