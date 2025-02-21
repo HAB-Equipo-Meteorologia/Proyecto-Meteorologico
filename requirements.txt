@@ -31,3 +31,4 @@ matplotlib
 seaborn
 plotly
 nbformat
+cartopy
