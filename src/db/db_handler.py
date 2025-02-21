@@ -34,9 +34,13 @@ class DBHandler:
 
     def insert_data(self, table_name: str, data: dict):
         """Inserta datos en una tabla de la base de datos"""
-        query = text(f"INSERT INTO {table_name} (name) VALUES (:name)")
+        columns = ', '.join(data.keys())
+        values = ', '.join(f':{key}' for key in data.keys())
+        query = text(f"INSERT INTO {table_name} ({columns}) VALUES ({values})")
+
         with self.engine.connect() as connection:
-            connection.execute(query, **data)
+            connection.execute(query, data)
+            connection.commit()
 
     def get_table_data(self, table_name: str):
         """Consulta de datos de una tabla en la base de datos"""
