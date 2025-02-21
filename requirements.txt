@@ -1,5 +1,6 @@
 # General
 python-dotenv
+setuptools
 
 # FastAPI
 fastapi
@@ -28,3 +29,5 @@ pandas
 folium
 matplotlib
 seaborn
+plotly
+nbformat
