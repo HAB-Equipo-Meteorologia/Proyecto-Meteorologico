@@ -14,9 +14,6 @@ fig = go.Figure()
 
 with st.columns([1, 3, 1])[1]:
     com_id, prov_id, idema = filters.estacion_filter()
-
-    st.session_state[f"{TAG}_com_id"] = com_id
-    st.session_state[f"{TAG}_prov_id"] = prov_id
     st.session_state[f"{TAG}_idema"] = idema
 
     estacion_map(fig, idema)
@@ -72,15 +69,23 @@ def fetch_historical():
 
 
 def data_changed():
-    return st.session_state[f"{TAG}_com_id"] != com_id or \
-        st.session_state[f"{TAG}_prov_id"] != prov_id or \
-        st.session_state[f"{TAG}_idema"] != idema or \
-        st.session_state[f"{TAG}_fecha_ini"] != fecha_ini or \
-        st.session_state[f"{TAG}_fecha_fin"] != fecha_fin
+    return (
+            st.session_state[f"{TAG}_idema"] != st.session_state.get(f"{TAG}_prev_idema", None) or
+            st.session_state[f"{TAG}_fecha_ini"] != st.session_state.get(f"{TAG}_prev_fecha_ini", None) or
+            st.session_state[f"{TAG}_fecha_fin"] != st.session_state.get(f"{TAG}_prev_fecha_fin", None)
+    )
+
+
+def update_session_state():
+    st.session_state[f"{TAG}_prev_idema"] = st.session_state[f"{TAG}_idema"]
+    st.session_state[f"{TAG}_prev_fecha_ini"] = st.session_state[f"{TAG}_fecha_ini"]
+    st.session_state[f"{TAG}_prev_fecha_fin"] = st.session_state[f"{TAG}_fecha_fin"]
 
 
 if data is None or data_changed():
     with st.spinner("Obteniendo datos..."):
         fetch_historical()
+        update_session_state()
+    st.rerun()
 else:
     show_data()
