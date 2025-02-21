@@ -60,3 +60,15 @@ class DBHandler:
         with self.engine.connect() as connection:
             result = connection.execute(query, {"fechaIni": fechaIni, "fechaFin": fechaFin})
             return [dict(zip(result.keys(), row)) for row in result]
+
+    def get_earliest_historical_date(self, table_name: str):
+        query = text(f"SELECT MIN(fecha) FROM {table_name}")
+        with self.engine.connect() as connection:
+            result = connection.execute(query)
+            return result.fetchone()[0]
+
+    def get_latest_historical_date(self, table_name: str):
+        query = text(f"SELECT MAX(fecha) FROM {table_name}")
+        with self.engine.connect() as connection:
+            result = connection.execute(query)
+            return result.fetchone()[0]
