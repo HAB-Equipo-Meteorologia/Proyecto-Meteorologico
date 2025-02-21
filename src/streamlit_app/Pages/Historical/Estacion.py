@@ -1,93 +1,86 @@
 from functools import reduce
-import streamlit as st
 import pandas as pd
-from folium import Map, Marker
-from streamlit_folium import st_folium
-from helpers import http_request
-from helpers.config import com_names, provincias, estaciones, \
-    comunidad_lookup, provincia_lookup, estacion_lookup, api_url
+import streamlit as st
+import plotly.graph_objects as go
+from src.api.routes.db_routes import elements
+from helpers import api
+from src.streamlit_app.components import filters
+from src.streamlit_app.components.maps import estacion_map
 
-with open("src/streamlit_app/styles/default.css") as f:
-    css = f.read()
+TAG = "historical_estacion"
+data = st.session_state[f"{TAG}_data"] if f"{TAG}_data" in st.session_state else None
 
-st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
-
-with st.columns([1, 3, 1])[1]:
-    comunidad = st.selectbox("Selecciona la comunidad autónoma", com_names)
-    com_id = comunidad_lookup[comunidad]
-
-    prov_names = [provincias[index]["nombre"] for index in provincias if
-                  str(provincias[index]["com_auto_id"]) == com_id]
-    provincia = st.selectbox("Selecciona la provincia", prov_names)
-    prov_id = provincia_lookup[provincia]
-
-    est_names = [estaciones[index]["nombre"] for index in estaciones if
-                 str(estaciones[index]["provincia_id"]) == prov_id]
-    estacion = st.selectbox("Selecciona la estación meteorológica", est_names)
-    idema = estacion_lookup[estacion]
-
-    _, ini, _, fin, _ = st.columns([2, 5, 2, 5, 2])
-    last_week = pd.Timestamp.now() - pd.DateOffset(weeks=2)
-
-    with ini:
-        fecha_ini = str(
-            st.date_input(label="Fecha inicio", value=last_week, min_value=pd.Timestamp(year=2023, month=2, day=14),
-                          max_value=pd.Timestamp.now()))  # default to last week
-
-    with fin:
-        fecha_fin = str(st.date_input(label="Fecha fin", value=pd.Timestamp.now(), max_value=pd.Timestamp.now(),
-                                      min_value=fecha_ini))  # default to today
+fig = go.Figure()
 
 with st.columns([1, 3, 1])[1]:
-    est_lat = estaciones[idema]["latitud"]
-    est_long = estaciones[idema]["longitud"]
+    com_id, prov_id, idema = filters.estacion_filter()
 
-    m = Map(location=[est_lat, est_long + 2.5], zoom_start=7)
-    Marker(location=[est_lat, est_long], popup=estacion).add_to(m)
-    st_folium(m, height=300, width=800)
+    st.session_state[f"{TAG}_com_id"] = com_id
+    st.session_state[f"{TAG}_prov_id"] = prov_id
+    st.session_state[f"{TAG}_idema"] = idema
 
-    elements = ["lluvia", "temperatura", "viento", "humedad"]
+    estacion_map(fig, idema)
+    fecha_ini, fecha_fin = filters.date_range_filter()
 
-    st.markdown("<br><p style='text-align: center;'>Selecciona los elementos a visualizar:</h3>",
-                unsafe_allow_html=True)
-    selection = st.pills(
-        "Elementos",
-        options=elements,
-        selection_mode="multi",
-        label_visibility="collapsed"
-    )
+    st.session_state[f"{TAG}_fecha_ini"] = fecha_ini
+    st.session_state[f"{TAG}_fecha_fin"] = fecha_fin
 
-    st.markdown("<br>", unsafe_allow_html=True)
+with st.columns([1, 3, 1])[1]:
+    st.plotly_chart(fig, use_container_width=True)
+    selected_elements = filters.element_filter()
 
-endpoint = "/db/historico/estacion/{idema}/{elemento}/rango/{fecha_ini}/{fecha_fin}"
+st.markdown("<br>", unsafe_allow_html=True)
 
-dfs = []
 
-for element in selection:
-    url = api_url + endpoint.format(elemento=element, idema=idema, fecha_ini=fecha_ini, fecha_fin=fecha_fin)
-    response = http_request.make_request(url=url, method='get')
+def show_data():
+    dfs = {}
+    for k, v in data.items():
+        dfs[k] = pd.DataFrame(v)
 
-    data = response[0]
-    status = response[1]
+    if len(data) > 0 and len(selected_elements) > 0:
+        dfs = {k: v for k, v in dfs.items() if k in selected_elements}
+        st.success("Datos obtenidos correctamente")
+        df = reduce(lambda left, right: pd.merge(
+            left,
+            right.drop(columns=left.columns.intersection(right.columns).difference(['uuid'])),
+            on='uuid'
+        ), [dfs[i] for i in selected_elements])
+        df.sort_values(by='fecha', inplace=True)
+        df = df[df['idema'] == idema]
+        df = df.drop(columns=['uuid', 'extracted', 'idema'])
 
-    if status != 200:
-        st.error("Error al obtener los datos")
+        st.markdown(
+            """
+            <style>
+                [data-testid="stDataFrameResizable"] {
+                    max-width: fit-content;
+                    margin: auto;
+                }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
-    if len(data) == 0:
-        st.error("No hay datos disponibles para el rango de fechas seleccionado")
-        break
+        st.dataframe(df, hide_index=True, use_container_width=False)
 
-    dfs.append(pd.DataFrame(data))
 
-if dfs:
-    st.success("Datos obtenidos correctamente")
-    df = reduce(lambda left, right: pd.merge(
-        left,
-        right.drop(columns=left.columns.intersection(right.columns).difference(['uuid'])),
-        on='uuid'
-    ), dfs)
-    df.sort_values(by='fecha', inplace=True)
-    df = df.drop(columns=['uuid', 'extracted', 'idema'])
+def fetch_historical():
+    _data = {}
+    for element in elements:
+        _data[element] = api.get_estaciones_historico(element, fecha_ini, fecha_fin)
+    st.session_state[f"{TAG}_data"] = _data
 
-    with st.columns([1, 2, 1])[1]:
-        st.dataframe(df, hide_index=True)
+
+def data_changed():
+    return st.session_state[f"{TAG}_com_id"] != com_id or \
+        st.session_state[f"{TAG}_prov_id"] != prov_id or \
+        st.session_state[f"{TAG}_idema"] != idema or \
+        st.session_state[f"{TAG}_fecha_ini"] != fecha_ini or \
+        st.session_state[f"{TAG}_fecha_fin"] != fecha_fin
+
+
+if data is None or data_changed():
+    with st.spinner("Obteniendo datos..."):
+        fetch_historical()
+else:
+    show_data()
