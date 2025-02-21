@@ -1,0 +1,210 @@
+{
+    "1": {
+        "nombre": "Araba",
+        "com_auto_id": 16
+    },
+    "2": {
+        "nombre": "Albacete",
+        "com_auto_id": 8
+    },
+    "3": {
+        "nombre": "Alicante",
+        "com_auto_id": 10
+    },
+    "4": {
+        "nombre": "Almería",
+        "com_auto_id": 1
+    },
+    "5": {
+        "nombre": "Ávila",
+        "com_auto_id": 7
+    },
+    "6": {
+        "nombre": "Badajoz",
+        "com_auto_id": 11
+    },
+    "7": {
+        "nombre": "Illes Balears",
+        "com_auto_id": 4
+    },
+    "8": {
+        "nombre": "Barcelona",
+        "com_auto_id": 9
+    },
+    "9": {
+        "nombre": "Burgos",
+        "com_auto_id": 7
+    },
+    "10": {
+        "nombre": "Cáceres",
+        "com_auto_id": 11
+    },
+    "11": {
+        "nombre": "Cádiz",
+        "com_auto_id": 1
+    },
+    "12": {
+        "nombre": "Castellón",
+        "com_auto_id": 10
+    },
+    "13": {
+        "nombre": "Ciudad Real",
+        "com_auto_id": 8
+    },
+    "14": {
+        "nombre": "Córdoba",
+        "com_auto_id": 1
+    },
+    "15": {
+        "nombre": "A Coruña",
+        "com_auto_id": 12
+    },
+    "16": {
+        "nombre": "Cuenca",
+        "com_auto_id": 8
+    },
+    "17": {
+        "nombre": "Girona",
+        "com_auto_id": 9
+    },
+    "18": {
+        "nombre": "Granada",
+        "com_auto_id": 1
+    },
+    "19": {
+        "nombre": "Guadalajara",
+        "com_auto_id": 8
+    },
+    "20": {
+        "nombre": "Gipuzkoa",
+        "com_auto_id": 16
+    },
+    "21": {
+        "nombre": "Huelva",
+        "com_auto_id": 1
+    },
+    "22": {
+        "nombre": "Huesca",
+        "com_auto_id": 2
+    },
+    "23": {
+        "nombre": "Jaén",
+        "com_auto_id": 1
+    },
+    "24": {
+        "nombre": "León",
+        "com_auto_id": 7
+    },
+    "25": {
+        "nombre": "Lleida",
+        "com_auto_id": 9
+    },
+    "26": {
+        "nombre": "La Rioja",
+        "com_auto_id": 17
+    },
+    "27": {
+        "nombre": "Lugo",
+        "com_auto_id": 12
+    },
+    "28": {
+        "nombre": "Madrid",
+        "com_auto_id": 13
+    },
+    "29": {
+        "nombre": "Málaga",
+        "com_auto_id": 1
+    },
+    "30": {
+        "nombre": "Murcia",
+        "com_auto_id": 14
+    },
+    "31": {
+        "nombre": "Navarra",
+        "com_auto_id": 15
+    },
+    "32": {
+        "nombre": "Ourense",
+        "com_auto_id": 12
+    },
+    "33": {
+        "nombre": "Asturias",
+        "com_auto_id": 3
+    },
+    "34": {
+        "nombre": "Palencia",
+        "com_auto_id": 7
+    },
+    "35": {
+        "nombre": "Las Palmas",
+        "com_auto_id": 5
+    },
+    "36": {
+        "nombre": "Pontevedra",
+        "com_auto_id": 12
+    },
+    "37": {
+        "nombre": "Salamanca",
+        "com_auto_id": 7
+    },
+    "38": {
+        "nombre": "Santa Cruz de Tenerife",
+        "com_auto_id": 5
+    },
+    "39": {
+        "nombre": "Cantabria",
+        "com_auto_id": 6
+    },
+    "40": {
+        "nombre": "Segovia",
+        "com_auto_id": 7
+    },
+    "41": {
+        "nombre": "Sevilla",
+        "com_auto_id": 1
+    },
+    "42": {
+        "nombre": "Soria",
+        "com_auto_id": 7
+    },
+    "43": {
+        "nombre": "Tarragona",
+        "com_auto_id": 9
+    },
+    "44": {
+        "nombre": "Teruel",
+        "com_auto_id": 2
+    },
+    "45": {
+        "nombre": "Toledo",
+        "com_auto_id": 8
+    },
+    "46": {
+        "nombre": "Valencia",
+        "com_auto_id": 10
+    },
+    "47": {
+        "nombre": "Valladolid",
+        "com_auto_id": 7
+    },
+    "48": {
+        "nombre": "Bizkaia",
+        "com_auto_id": 16
+    },
+    "49": {
+        "nombre": "Zamora",
+        "com_auto_id": 7
+    },
+    "50": {
+        "nombre": "Zaragoza",
+        "com_auto_id": 2
+    },
+    "51": {
+        "nombre": "Ceuta",
+        "com_auto_id": 18
+    },
+    "52": {
+        "nombre": "Melilla",
+        "com_auto_id": 19
+    }
+}

@@ -1,11 +1,33 @@
+# General
 python-dotenv
-numpy
-pandas
+setuptools
+
+# FastAPI
 fastapi
 uvicorn
+starlette
+pydantic
+
+# Streamlit
 streamlit
-aiohttp
+streamlit-folium
+
+# HTTP
 requests
+aiohttp
+
+# Database
 sqlalchemy
 psycopg2-binary
 asyncpg
+
+# Data manipulation
+numpy
+pandas
+
+# Data Visualization
+folium
+matplotlib
+seaborn
+plotly
+nbformat

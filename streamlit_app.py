@@ -1,22 +1,9 @@
-import streamlit as st
+from src.streamlit_app import app
 
-st.set_page_config(page_title="Análisis Meteorológico", page_icon=":lightning:", layout="wide", initial_sidebar_state="expanded")
 
 def main():
-    
-    pages = {
-        "Main": [
-            st.Page("src/streamlit/Pages/Main/Dashboard.py", title="Welcome"),
-            st.Page("src/streamlit/Pages/Main/API Docs.py", title="API Docs")
-        ],
-        "AEMET Live": [
-            st.Page("src/streamlit/Pages/AEMET Live/Estacion.py", title="Estación"),
-            st.Page("src/streamlit/Pages/AEMET Live/Municipio.py", title="Municipio")
-        ],
-    }
+    app.main()
 
-    pg = st.navigation(pages)
-    pg.run()
 
 if __name__ == "__main__":
     main()

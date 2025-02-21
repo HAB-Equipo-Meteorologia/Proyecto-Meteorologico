@@ -1,5 +1,0 @@
-response_code,description
-200,respuesta con éxito
-401,petición no autorizada
-404,petición sin datos
-429,petición que sobrepasa los límites del servicio

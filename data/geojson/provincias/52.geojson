@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -2.950577,
+                35.265458
+              ],
+              [
+                -2.970316,
+                35.288651
+              ],
+              [
+                -2.952625,
+                35.320288
+              ],
+              [
+                -2.923292,
+                35.290191
+              ],
+              [
+                -2.950577,
+                35.265458
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "name" : "Melilla"
+      },
+      "cartodb_id" : 51,
+      "type": "Feature"
+    }
+  ]
+}

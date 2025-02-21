@@ -1,0 +1,63 @@
+endpoint,tag,summary,parameters
+/api/avisos_cap/ultimoelaborado/area/{area},avisos_cap,Avisos de Fenómenos Meteorológicos Adversos. Último.,['area']
+/api/avisos_cap/archivo/fechaini/{fechaIniStr}/fechafin/{fechaFinStr},avisos_cap,Avisos de Fenómenos Meteorológicos Adversos. Archivo.,"['fechaIniStr', 'fechaFinStr']"
+/api/incendios/mapasriesgo/estimado/area/{area},indices-incendios,Mapa de niveles de riesgo estimado meteorológico de incendios forestales.,['area']
+/api/incendios/mapasriesgo/previsto/dia/{dia}/area/{area},indices-incendios,Mapa de niveles de riesgo previsto meteorológico de incendios forestales.,"['dia', 'area']"
+/api/maestro/municipio/{municipio},maestro,Información específica municipio.,['municipio']
+/api/maestro/municipios,maestro,Información específica municipios.,[]
+/api/mapasygraficos/analisis,mapas-y-graficos,Mapas de análisis. Última pasada.,[]
+/api/mapasygraficos/mapassignificativos/fecha/{fecha}/{ambito}/{dia},mapas-y-graficos,Mapas significativos. Tiempo actual.,"['fecha', 'ambito', 'dia']"
+/api/observacion/convencional/todas,observacion-convencional,Datos de observación. Tiempo actual.,[]
+/api/observacion/convencional/datos/estacion/{idema},observacion-convencional,Datos de observación. Tiempo actual.,['idema']
+/api/observacion/convencional/mensajes/tipomensaje/{tipomensaje},observacion-convencional,Mensajes de observación. Último elaborado.,['tipomensaje']
+/api/prediccion/ccaa/hoy/{ccaa},predicciones-normalizadas-texto,Predicción CCAA hoy. Tiempo actual.,['ccaa']
+/api/prediccion/ccaa/hoy/{ccaa}/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción CCAA hoy. Archivo.,"['ccaa', 'fecha']"
+/api/prediccion/ccaa/manana/{ccaa},predicciones-normalizadas-texto,Predicción CCAA mañana. Tiempo actual.,['ccaa']
+/api/prediccion/ccaa/manana/{ccaa}/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción CCAA mañana. Archivo.,"['ccaa', 'fecha']"
+/api/prediccion/ccaa/medioplazo/{ccaa},predicciones-normalizadas-texto,Predicción CCAA medio plazo. Tiempo actual.,['ccaa']
+/api/prediccion/ccaa/medioplazo/{ccaa}/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción CCAA medio plazo. Archivo.,"['ccaa', 'fecha']"
+/api/prediccion/ccaa/pasadomanana/{ccaa},predicciones-normalizadas-texto,Predicción CCAA pasado mañana. Tiempo actual.,['ccaa']
+/api/prediccion/ccaa/pasadomanana/{ccaa}/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción CCAA pasado mañana. Archivo.,"['ccaa', 'fecha']"
+/api/prediccion/especifica/montaña/pasada/area/{area},predicciones-especificas,Predicción de montaña. Tiempo pasado.,['area']
+/api/prediccion/especifica/montaña/pasada/area/{area}/dia/{dia},predicciones-especificas,Predicción de montaña. Tiempo actual.,"['area', 'dia']"
+/api/prediccion/especifica/nivologica/{area},predicciones-especificas,Información nivológica.,['area']
+/api/prediccion/especifica/municipio/diaria/{municipio},predicciones-especificas,Predicción por municipios diaria. Tiempo actual.,['municipio']
+/api/prediccion/especifica/municipio/horaria/{municipio},predicciones-especificas,Predicción por municipios horaria. Tiempo actual.,['municipio']
+/api/prediccion/especifica/playa/{playa},predicciones-especificas,Predicción para las playas. Tiempo actual.,['playa']
+/api/prediccion/especifica/uvi/{dia},predicciones-especificas,Predicción de radiación ultravioleta (UVI).,['dia']
+/api/prediccion/maritima/altamar/area/{area},prediccion-maritima,Predicción marítima de alta mar.,['area']
+/api/prediccion/maritima/costera/costa/{costa},prediccion-maritima,Predicción marítima costera.,['costa']
+/api/prediccion/nacional/hoy,predicciones-normalizadas-texto,Predicción nacional hoy. Última elaborada.,[]
+/api/prediccion/nacional/hoy/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción nacional hoy. Archivo.,['fecha']
+/api/prediccion/nacional/manana,predicciones-normalizadas-texto,Predicción nacional mañana. Tiempo actual.,[]
+/api/prediccion/nacional/manana/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción nacional mañana. Archivo.,['fecha']
+/api/prediccion/nacional/medioplazo,predicciones-normalizadas-texto,Predicción nacional medio plazo. Tiempo actual.,[]
+/api/prediccion/nacional/medioplazo/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción nacional medio plazo. Archivo.,['fecha']
+/api/prediccion/nacional/pasadomanana,predicciones-normalizadas-texto,Predicción nacional pasado mañana. Tiempo actual.,[]
+/api/prediccion/nacional/pasadomanana/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción nacional pasado mañana. Archivo.,['fecha']
+/api/prediccion/nacional/tendencia,predicciones-normalizadas-texto,Predicción nacional tendencia. Tiempo actual.,[]
+/api/prediccion/nacional/tendencia/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción nacional tendencia. Archivo.,['fecha']
+/api/prediccion/provincia/hoy/{provincia},predicciones-normalizadas-texto,Predicción provincial e insular hoy. Tiempo actual.,['provincia']
+/api/prediccion/provincia/hoy/{provincia}/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción provincial e insular hoy. Archivo.,"['provincia', 'fecha']"
+/api/prediccion/provincia/manana/{provincia},predicciones-normalizadas-texto,Predicción provincial e insular mañana. Tiempo actual.,['provincia']
+/api/prediccion/provincia/manana/{provincia}/elaboracion/{fecha},predicciones-normalizadas-texto,Predicción provincial e insular mañana. Archivo.,"['provincia', 'fecha']"
+/api/productos/climatologicos/balancehidrico/{anio}/{decena},productos-climatologicos,Balance hídrico nacional (documento).,"['anio', 'decena']"
+/api/productos/climatologicos/resumenclimatologico/nacional/{anio}/{mes},productos-climatologicos,Resumen mensual climatológico nacional (documento).,"['anio', 'mes']"
+/api/productos/climatologicos/capasshape/{tipoestacion},productos-climatologicos,Capas SHAPE de estaciones climatológicas de AEMET.,['tipoestacion']
+/api/red/especial/contaminacionfondo/estacion/{nombre_estacion},redes-especiales,Datos de contaminación de fondo. Tiempo actual.,['nombre_estacion']
+/api/red/especial/ozono,redes-especiales,Contenido total de ozono. Tiempo actual.,[]
+/api/red/especial/perfilozono/estacion/{estacion},redes-especiales,Perfiles verticales de ozono. Tiempo actual.,['estacion']
+/api/red/especial/radiacion,redes-especiales,"Datos de radiación global, directa o difusa. Tiempo actual.",[]
+/api/red/radar/nacional,red-radares,Imagen composición nacional radares. Tiempo actual estándar.,[]
+/api/red/radar/regional/{radar},red-radares,Imagen gráfica radar regional. Tiempo actual estándar.,['radar']
+/api/red/rayos/mapa,red-rayos,Mapa con los rayos registrados en periodo standard. Último elaborado.,[]
+/api/satelites/producto/nvdi,informacion-satelite,Índice normalizado de vegetación.,[]
+/api/satelites/producto/sst,informacion-satelite,Temperatura del agua del mar.,[]
+/api/valores/climatologicos/diarios/datos/fechaini/{fechaIniStr}/fechafin/{fechaFinStr}/estacion/{idema},valores-climatologicos,Climatologías diarias.,"['fechaIniStr', 'fechaFinStr', 'idema']"
+/api/valores/climatologicos/diarios/datos/fechaini/{fechaIniStr}/fechafin/{fechaFinStr}/todasestaciones,valores-climatologicos,Climatologías diarias.,"['fechaIniStr', 'fechaFinStr']"
+/api/valores/climatologicos/inventarioestaciones/estaciones/{estaciones},valores-climatologicos,Estaciones por indicativo.,['estaciones']
+/api/valores/climatologicos/inventarioestaciones/todasestaciones,valores-climatologicos,Inventario de estaciones (valores climatológicos).,[]
+/api/valores/climatologicos/mensualesanuales/datos/anioini/{anioIniStr}/aniofin/{anioFinStr}/estacion/{idema},valores-climatologicos,Climatologías mensuales anuales.,"['anioIniStr', 'anioFinStr', 'idema']"
+/api/valores/climatologicos/normales/estacion/{idema},valores-climatologicos,Climatologías normales (1991-2020).,['idema']
+/api/valores/climatologicos/valoresextremos/parametro/{parametro}/estacion/{idema},valores-climatologicos,Valores extremos.,"['parametro', 'idema']"
+/api/antartida/datos/fechaini/{fechaIniStr}/fechafin/{fechaFinStr}/estacion/{identificacion},antartida,Datos Antártida.,"['fechaIniStr', 'fechaFinStr', 'identificacion']"
