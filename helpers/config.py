@@ -1,4 +1,5 @@
 import os
+import toml
 from dotenv import load_dotenv, find_dotenv
 
 if bool(find_dotenv()):
@@ -10,7 +11,10 @@ else:
 try:
     import streamlit as st
 
-    STREAMLIT_MODE = 'secrets' in st.__dict__ and bool(st.secrets)
+    streamlit_dict = st.__dict__
+    st_secrets = toml.load(".streamlit/secrets.toml")
+
+    STREAMLIT_MODE = 'secrets' in streamlit_dict and st_secrets
 except (FileNotFoundError, ImportError):
     STREAMLIT_MODE = False
 

@@ -49,7 +49,38 @@ class DBHandler:
             result = connection.execute(query)
             return [dict(zip(result.keys(), row)) for row in result]
 
-    def get_estacion_historico(self, elemento: str, idema: str, fechaIni: str, fechaFin: str):
+    def get_column(self, table_name: str, column_name: str):
+        """Consulta de datos de una columna en la base de datos"""
+        query = text(f"SELECT {column_name} FROM {table_name}")
+        with self.engine.connect() as connection:
+            result = connection.execute(query)
+            return [row[0] for row in result]
+
+    def get_columns(self, table_name: str, column_names: list):
+        """Consulta de datos de una columna en la base de datos"""
+        columns = ', '.join(column_names)
+        query = text(f"SELECT {columns} FROM {table_name}")
+        with self.engine.connect() as connection:
+            result = connection.execute(query)
+            return [dict(zip(result.keys(), row)) for row in result]
+
+    def get_estacion_historico(self, elemento: str, idema: str):
+        table_name = f"{elemento}_historico"
+        query = text(f"SELECT * FROM {table_name} WHERE idema = :idema")
+
+        with self.engine.connect() as connection:
+            result = connection.execute(query, {"idema": idema})
+            return [dict(zip(result.keys(), row)) for row in result]
+
+    def get_estaciones_historico(self, elemento: str):
+        table_name = f"{elemento}_historico"
+        query = text(f"SELECT * FROM {table_name}")
+
+        with self.engine.connect() as connection:
+            result = connection.execute(query)
+            return [dict(zip(result.keys(), row)) for row in result]
+
+    def get_estacion_historico_rango(self, elemento: str, idema: str, fechaIni: str, fechaFin: str):
         table_name = f"{elemento}_historico"
         query = text(f"SELECT * FROM {table_name} WHERE idema = :idema AND fecha BETWEEN :fechaIni AND :fechaFin")
 
@@ -57,7 +88,7 @@ class DBHandler:
             result = connection.execute(query, {"idema": idema, "fechaIni": fechaIni, "fechaFin": fechaFin})
             return [dict(zip(result.keys(), row)) for row in result]
 
-    def get_estaciones_historico(self, elemento: str, fechaIni: str, fechaFin: str):
+    def get_estaciones_historico_rango(self, elemento: str, fechaIni: str, fechaFin: str):
         table_name = f"{elemento}_historico"
         query = text(f"SELECT * FROM {table_name} WHERE fecha BETWEEN :fechaIni AND :fechaFin")
 
