@@ -1,7 +1,7 @@
 import math
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import plotly.express as px
 
 def plot_counts(data, bins=30, cols=3):
     num_cols = len(data.columns)
@@ -92,3 +92,25 @@ def visualizar_columna(df, columna, target, palette="pastel", color='blue'):
 
     plt.tight_layout()
     plt.show()
+
+
+def histograma(df, x_column: str, fecha_inicial, fecha_final, x_label: str):
+    fig = px.histogram(
+        df,
+        x=x_column,
+        nbins=20,
+        title=f"Histograma de {x_label}\nRango: {fecha_inicial} - {fecha_final}",
+        labels={x_column: x_label},
+        template="plotly_white"
+    )
+    fig.update_traces(
+        marker_color='mediumpurple', 
+        marker_line_color='black', 
+        marker_line_width=1.5, 
+        opacity=0.85
+    )
+    fig.update_layout(
+        xaxis_title=x_label,
+        yaxis_title="Frecuencia"
+    )
+    return fig
