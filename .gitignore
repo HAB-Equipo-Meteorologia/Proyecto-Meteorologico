@@ -8,3 +8,4 @@ venv/
 ENV/
 logs/
 .DS_Store
+.toml
