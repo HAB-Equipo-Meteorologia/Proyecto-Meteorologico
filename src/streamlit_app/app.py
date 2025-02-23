@@ -13,6 +13,9 @@ def main():
         "Histórico": [
             st.Page("src/streamlit_app/Pages/Historical/Estacion.py", title="Estación"),
         ],
+        "EDA": [
+            st.Page("src/streamlit_app/Pages/EDA/Graficos.py", title="Análisis Exploratorio de Datos"),
+        ],
     }
 
     pg = st.navigation(pages)
