@@ -40,7 +40,5 @@ if errorlevel 1 (
 )
 
 REM Clean up
-del temp.log
+if exist temp.log del temp.log
 set TEST_ENV=
-
-exit /b %ERRORLEVEL%
