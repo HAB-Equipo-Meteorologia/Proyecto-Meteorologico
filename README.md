@@ -1,17 +1,21 @@
-## 1. Obtain AEMET API key from https://opendata.aemet.es/centrodedescargas/obtencionAPIKey
+## Predicciones Meteorológicas con los datos de la AEMET
 
-## 2. Rename '.env.example' to '.env' and enter your AEMET API key
+### Requisitos:
 
-## 3. Create a virtual environment and install requirements.txt
+#### Renombrar '.env.example' a '.env'
 
-## 4. Run the application:
+#### Crear un entorno virtual y instalar requirements.txt
 
-### MacOS/Linux:
+### Ejecución:
+
+#### MacOS/Linux:
+
 ```sh
 ./run.sh
 ```
 
-### Windows:
+#### Windows:
+
 ```sh
 run.bat
 ```
