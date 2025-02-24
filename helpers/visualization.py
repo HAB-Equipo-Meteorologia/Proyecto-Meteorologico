@@ -98,7 +98,6 @@ def histograma(df, title: str, col: str, x_label: str, y_label: str = "Frecuenci
     fig = px.histogram(
         df,
         x=col,
-        nbins=20,
         title=title,
         labels={col: x_label},
         template="plotly_white"
