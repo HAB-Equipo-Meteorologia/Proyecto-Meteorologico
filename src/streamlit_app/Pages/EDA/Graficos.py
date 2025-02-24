@@ -1,6 +1,7 @@
 import sys
 import streamlit as st
 import pandas as pd
+import unidecode
 import plotly.express as px
 from functools import reduce
 from datetime import datetime
@@ -9,8 +10,9 @@ sys.path.append('../..')
 
 from src.db.db_handler import DBHandler
 from helpers.visualization import histograma
-from streamlit_folium import st_folium
+from helpers.coropleth_map import unificar_geojson_provincias, merge_geojson_provincias, crear_mapa_choropleth
 
+from streamlit_folium import st_folium
 
 def graficar_histogramas():
     db = DBHandler()
@@ -19,7 +21,7 @@ def graficar_histogramas():
     
     st.header("Histogramas")
     
-    # Histograma de Temperatura
+
     fecha_inicial_temp = db.get_earliest_historical_date("temperatura_historico")
     fecha_fin_temp = db.get_latest_historical_date("temperatura_historico")
     data_temp = db.get_estaciones_historico("temperatura", fecha_inicial_temp, fecha_fin_temp)
@@ -144,7 +146,7 @@ def filtro_fecha_unica():
     return str(fecha)
 
 
-def render_choropleth_map():
+def mapa_coropletico():
     st.header("Mapa Coroplético de la temperatura media por provincia")
     
     fecha_temp = filtro_fecha_unica()
@@ -169,11 +171,11 @@ def render_choropleth_map():
     ).sort_values("fecha")
     
     df_temp_prov = df_temp_merged.groupby("provincia_id", as_index=False).last()[["provincia_id", "nombre_prov", "tmed"]]
-    import unidecode
+
     df_temp_prov["nombre_prov"] = df_temp_prov["nombre_prov"].apply(lambda x: unidecode.unidecode(x.strip().lower()))
     
     geojson_dir = "../../data/geojson/provincias"
-    from helpers.coropleth_map import unificar_geojson_provincias, merge_geojson_provincias, crear_mapa_choropleth
+    
     geojson_unificado = unificar_geojson_provincias(geojson_dir)
     geojson_merged = merge_geojson_provincias(geojson_unificado)
     
@@ -192,3 +194,8 @@ def render_choropleth_map():
     st_folium(mapa, width=700, height=500)
     st.write("**Análisis:** El mapa coroplético muestra la distribución de la temperatura media por provincia para la fecha seleccionada, permitiendo identificar patrones geográficos en la variabilidad de la temperatura. Los colores del mapa muestran valores azules cuanto menor sea la temperatura media y valores rojos cuanto mayor sea la misma.")
 
+
+if __name__ == '__main__':
+    graficar_histogramas()
+    graficar_scatter_matrix()
+    mapa_coropletico()
