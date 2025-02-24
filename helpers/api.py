@@ -3,8 +3,10 @@ from helpers.http_request import get
 
 api_endpoints = {
     "table": "/db/{table}",
-    "estacion": "/db/historico/estacion/{idema}/{elemento}/rango/{fecha_ini}/{fecha_fin}",
-    "estaciones": "/db/historico/estaciones/{elemento}/rango/{fecha_ini}/{fecha_fin}"
+    "estacion": "/db/historico/estacion/{idema}/{elemento}",
+    "estaciones": "/db/historico/estaciones/{elemento}",
+    "estacion_rango": "/db/historico/estacion/{idema}/{elemento}/rango/{fecha_ini}/{fecha_fin}",
+    "estaciones_rango": "/db/historico/estaciones/{elemento}/rango/{fecha_ini}/{fecha_fin}"
 }
 
 
@@ -13,8 +15,18 @@ def get_table(table: str):
     return get(url=url)[0]
 
 
-def get_estacion_historico(idema: str, elemento: str, fecha_ini: str, fecha_fin: str):
-    url = api_url + api_endpoints['estacion'].format(
+def get_estacion_historico(idema: str, elemento: str):
+    url = api_url + api_endpoints['estacion'].format(idema=idema, elemento=elemento)
+    return get(url=url)[0]
+
+
+def get_estaciones_historico(elemento: str):
+    url = api_url + api_endpoints['estaciones'].format(elemento=elemento)
+    return get(url=url)[0]
+
+
+def get_estacion_historico_rango(idema: str, elemento: str, fecha_ini: str, fecha_fin: str):
+    url = api_url + api_endpoints['estacion_rango'].format(
         idema=idema,
         elemento=elemento,
         fecha_ini=fecha_ini,
@@ -22,8 +34,8 @@ def get_estacion_historico(idema: str, elemento: str, fecha_ini: str, fecha_fin:
     return get(url=url)[0]
 
 
-def get_estaciones_historico(elemento: str, fecha_ini: str, fecha_fin: str):
-    url = api_url + api_endpoints['estaciones'].format(
+def get_estaciones_historico_rango(elemento: str, fecha_ini: str, fecha_fin: str):
+    url = api_url + api_endpoints['estaciones_rango'].format(
         elemento=elemento,
         fecha_ini=fecha_ini,
         fecha_fin=fecha_fin)

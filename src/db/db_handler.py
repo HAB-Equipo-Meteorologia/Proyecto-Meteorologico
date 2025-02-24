@@ -42,19 +42,18 @@ class DBHandler:
             connection.execute(query, data)
             connection.commit()
 
-    def get_table_data(self, table_name: str):
+    def get_table(self, table_name: str):
         """Consulta de datos de una tabla en la base de datos"""
         query = text(f"SELECT * FROM {table_name}")
         with self.engine.connect() as connection:
             result = connection.execute(query)
             return [dict(zip(result.keys(), row)) for row in result]
 
-    def get_column(self, table_name: str, column_name: str):
-        """Consulta de datos de una columna en la base de datos"""
-        query = text(f"SELECT {column_name} FROM {table_name}")
+    def get_schema(self, table_name: str):
+        query = text(f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = :table_name")
         with self.engine.connect() as connection:
-            result = connection.execute(query)
-            return [row[0] for row in result]
+            result = connection.execute(query, {"table_name": table_name})
+            return [dict(row) for row in result]
 
     def get_columns(self, table_name: str, column_names: list):
         """Consulta de datos de una columna en la base de datos"""
@@ -62,6 +61,8 @@ class DBHandler:
         query = text(f"SELECT {columns} FROM {table_name}")
         with self.engine.connect() as connection:
             result = connection.execute(query)
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
     def get_estacion_historico(self, elemento: str, idema: str):
@@ -70,6 +71,8 @@ class DBHandler:
 
         with self.engine.connect() as connection:
             result = connection.execute(query, {"idema": idema})
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
     def get_estaciones_historico(self, elemento: str):
@@ -78,6 +81,8 @@ class DBHandler:
 
         with self.engine.connect() as connection:
             result = connection.execute(query)
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
     def get_estacion_historico_rango(self, elemento: str, idema: str, fechaIni: str, fechaFin: str):
@@ -86,6 +91,8 @@ class DBHandler:
 
         with self.engine.connect() as connection:
             result = connection.execute(query, {"idema": idema, "fechaIni": fechaIni, "fechaFin": fechaFin})
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
     def get_estaciones_historico_rango(self, elemento: str, fechaIni: str, fechaFin: str):
@@ -94,16 +101,22 @@ class DBHandler:
 
         with self.engine.connect() as connection:
             result = connection.execute(query, {"fechaIni": fechaIni, "fechaFin": fechaFin})
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
     def get_earliest_historical_date(self, table_name: str):
         query = text(f"SELECT MIN(fecha) FROM {table_name}")
         with self.engine.connect() as connection:
             result = connection.execute(query)
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return result.fetchone()[0]
 
     def get_latest_historical_date(self, table_name: str):
         query = text(f"SELECT MAX(fecha) FROM {table_name}")
         with self.engine.connect() as connection:
             result = connection.execute(query)
+            if result.rowcount == 0:
+                return [{'column': col} for col in result.keys()]
             return result.fetchone()[0]
