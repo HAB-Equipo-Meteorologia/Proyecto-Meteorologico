@@ -1,6 +1,6 @@
 ## Predicciones Meteorológicas con los datos de la AEMET
 
-### Requisitos:
+### Setup:
 
 #### Renombrar '.env.example' a '.env'
 
@@ -8,14 +8,6 @@
 
 ### Ejecución:
 
-#### MacOS/Linux:
-
 ```sh
 ./run.sh
-```
-
-#### Windows:
-
-```sh
-run.bat
 ```
