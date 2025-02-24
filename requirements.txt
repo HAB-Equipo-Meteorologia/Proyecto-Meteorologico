@@ -24,6 +24,8 @@ asyncpg
 # Data manipulation
 numpy
 pandas
+unidecode
+geopandas
 
 # Data Visualization
 folium
