@@ -1,6 +1,11 @@
 # General
 python-dotenv
 setuptools
+toml
+
+# Testing
+pytest
+pytest-cov
 
 # FastAPI
 fastapi

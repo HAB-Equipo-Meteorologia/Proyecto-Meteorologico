@@ -2,6 +2,8 @@
 
 mkdir -p logs
 
+./run_tests.sh
+
 # Start FastAPI
 uvicorn src.api.main:app --reload --host localhost --port 8000 2>&1 | tee logs/fastapi.log &
 

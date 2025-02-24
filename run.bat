@@ -6,6 +6,8 @@ if not exist logs (
     mkdir logs
 )
 
+run_tests.bat
+
 :: Start FastAPI
 start "" uvicorn src.api.main:app --reload --host localhost --port 8000 >> logs\fastapi.log 2>&1
 

@@ -9,3 +9,4 @@ ENV/
 logs/
 .DS_Store
 .toml
+.coverage
