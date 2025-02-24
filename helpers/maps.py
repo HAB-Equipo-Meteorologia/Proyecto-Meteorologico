@@ -7,20 +7,29 @@ import cartopy.crs as ccrs
 from typing import Optional
 
 
-def get_geojson(_type: str) -> dict:
+def get_geojson() -> dict:
     data = {}
 
-    for file in glob.glob(f"../data/geojson/{_type}/*.geojson"):
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    geojson_dir = os.path.join(script_dir, '../data/geojson/provincias')
+    locations_file = os.path.join(script_dir, '../data/locations/provincias.json')
+
+    for file in glob.glob(os.path.join(geojson_dir, '*.geojson')):
         key = os.path.basename(file).removesuffix(".geojson")
         data[key] = {}
         with open(file, encoding="utf-8") as f:
             data[key]['geojson'] = json.load(f)
 
-    with open(f'../data/locations/{_type}.json') as f:
+    with open(locations_file) as f:
         loc_data = json.load(f)
 
     for key, value in loc_data.items():
         data[key].update(value)
+        for feature in data[key]['geojson']['features']:
+            feature.setdefault('properties', {})
+            feature['properties'].update(value)
+            feature['properties']['provincia_id'] = key
+
 
     return data
 
@@ -46,8 +55,7 @@ def add_region(ax: plt.Axes, geodata, alpha: float = 0, color: Optional[str] = N
 
 
 # noinspection PydanticTypeChecker,PyTypeChecker
-def spain_outline(_type):
-    data = get_geojson(_type)
+def spain_outline():
     fig, ax = plt.subplots(subplot_kw={'projection': ccrs.PlateCarree()})
 
     inset_ax = fig.add_axes((0.68, 0.15, 0.2, 0.2), projection=ccrs.PlateCarree())
@@ -63,17 +71,17 @@ def spain_outline(_type):
     return fig, ax, inset_ax
 
 
-def add_area(_type, _id, ax, inset_ax, handles, alpha: float = 0.5, color: str = 'blue'):
-    with open(f'../data/locations/{_type}.json') as f:
-        name = json.load(f)[_id]['nombre']
+def add_area(provincia_id, ax, inset_ax, handles, alpha: float = 0.5, color: str = 'blue'):
+    with open(f'../data/locations/provincias.json') as f:
+        name = json.load(f)[provincia_id]['nombre']
 
     if any(handle.get_label() == name for handle in handles):
         return
 
-    with open(f"../data/geojson/{_type}/{_id}.geojson") as f:
+    with open(f"../data/geojson/provincias/{provincia_id}.geojson") as f:
         geojson = json.load(f)
 
-    if _type == 'provincias' and _id in ['35', '38'] or _type == 'comunidades' and _id in ['5']:  # Islas Canarias
+    if provincia_id in ['35', '38']:  # Islas Canarias
         add_region(inset_ax, geojson, alpha=alpha, color=color)
     else:
         add_region(ax, geojson, alpha=alpha, color=color)

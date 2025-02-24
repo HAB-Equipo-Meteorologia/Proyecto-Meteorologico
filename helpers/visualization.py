@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+
 def plot_counts(data, bins=30, cols=3):
     num_cols = len(data.columns)
     rows = math.ceil(num_cols / cols)
@@ -45,7 +46,6 @@ def plot_box_plots(data, cols=3):
 
     fig, axes = plt.subplots(rows, cols, figsize=(15, rows * 5))
     axes = axes.flatten()
-
     for i, column in enumerate(filtered_data.columns):
         axes[i].boxplot(filtered_data[column])
         axes[i].set_title(column)
@@ -66,7 +66,7 @@ def visualizar_columna(df, columna, target, palette="pastel", color='blue'):
         axes[0].set_title(f'Distribución de {columna}')
         axes[0].tick_params(axis='x', rotation=45)
 
-        # Boxplot con precio
+        # Boxplot con target
         sns.boxplot(data=df, x=columna, y=target, ax=axes[1], hue=columna, palette=palette)
         axes[1].set_title(f'{columna} vs {target}')
         axes[1].tick_params(axis='x', rotation=45)
@@ -94,23 +94,23 @@ def visualizar_columna(df, columna, target, palette="pastel", color='blue'):
     plt.show()
 
 
-def histograma(df, x_column: str, fecha_inicial, fecha_final, x_label: str):
+def histograma(df, title: str, col: str, x_label: str, y_label: str = "Frecuencia"):
     fig = px.histogram(
         df,
-        x=x_column,
+        x=col,
         nbins=20,
-        title=f"Histograma de {x_label}\nRango: {fecha_inicial} - {fecha_final}",
-        labels={x_column: x_label},
+        title=title,
+        labels={col: x_label},
         template="plotly_white"
     )
     fig.update_traces(
-        marker_color='mediumpurple', 
-        marker_line_color='black', 
-        marker_line_width=1.5, 
+        marker_color='purple',
+        marker_line_color='black',
+        marker_line_width=1.5,
         opacity=0.85
     )
     fig.update_layout(
         xaxis_title=x_label,
-        yaxis_title="Frecuencia"
+        yaxis_title=y_label
     )
     return fig

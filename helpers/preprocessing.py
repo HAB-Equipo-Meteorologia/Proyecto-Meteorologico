@@ -3,18 +3,16 @@ import pandas as pd
 import numpy as np
 
 
-def format_fecha(fecha_str: str):
+def format_fecha(fecha_str: str, _format: str = "%Y-%m-%d") -> str:
     """
-    Formatea una fecha en formato ISO 8601 a un formato más legible.
-    :param fecha_str:
-    :return:
+    Formatea una fecha en formato ISO a un formato más legible.
     """
     meses = [
         "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ]
 
-    dt = datetime.strptime(fecha_str, "%Y-%m-%dT%H:%M:%S")
+    dt = datetime.strptime(fecha_str, _format)
     return f"{dt.day} {meses[dt.month - 1]} {dt.year}"
 
 
