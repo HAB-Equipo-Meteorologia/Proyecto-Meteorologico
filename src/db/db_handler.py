@@ -1,6 +1,15 @@
-from sqlalchemy import create_engine, text
+import datetime
+from typing import Optional
+import psycopg2
+import psycopg2.extensions
+from sqlalchemy import create_engine, text, Table, MetaData
 from helpers.config import get_env_var
 
+
+def adapt_time(time_obj):
+    return psycopg2.extensions.AsIs("'%s'::time" % time_obj.strftime('%H:%M:%S'))
+
+psycopg2.extensions.register_adapter(datetime.time, adapt_time)
 
 class DBHandler:
     _instance = None
@@ -33,13 +42,33 @@ class DBHandler:
         self.engine = create_engine(self.URL)
 
     def insert_data(self, table_name: str, data: dict):
-        """Inserta datos en una tabla de la base de datos"""
-        columns = ', '.join(data.keys())
-        values = ', '.join(f':{key}' for key in data.keys())
-        query = text(f"INSERT INTO {table_name} ({columns}) VALUES ({values})")
+        columns = list(data.keys())
+        rows = list(zip(*data.values()))
+        placeholders = ", ".join([f":{col}" for col in columns])
+        query = text(f"INSERT INTO {table_name} ({', '.join(columns)}) VALUES ({placeholders})")
 
         with self.engine.connect() as connection:
-            connection.execute(query, data)
+            for row in rows:
+                connection.execute(query, dict(zip(columns, row)))
+            connection.commit()
+
+    def bulk_insert_data(self, table_name: str, data: dict):
+        table = Table(table_name, MetaData(), autoload_with=self.engine)
+        records = []
+        if data and all(isinstance(v, list) for v in data.values()):
+            n_records = len(next(iter(data.values())))
+            for i in range(n_records):
+                record = {col: data[col][i] for col in data}
+                records.append(record)
+
+        with self.engine.begin() as connection:
+            connection.execute(table.insert(), records)
+
+    # In case of insertion mistakes, thanks to the extraction column we can easily revert back
+    def delete_extracted_after_date(self, table_name: str, date_threshold):
+        query = text(f"DELETE FROM {table_name} WHERE extracted >= :date_threshold")
+        with self.engine.connect() as connection:
+            connection.execute(query, {"date_threshold": date_threshold})
             connection.commit()
 
     def get_table(self, table_name: str):
@@ -53,7 +82,7 @@ class DBHandler:
         query = text(f"SELECT column_name, data_type FROM information_schema.columns WHERE table_name = :table_name")
         with self.engine.connect() as connection:
             result = connection.execute(query, {"table_name": table_name})
-            return [dict(row) for row in result]
+            return [dict(zip(result.keys(), row)) for row in result]
 
     def get_columns(self, table_name: str, column_names: list):
         """Consulta de datos de una columna en la base de datos"""
@@ -85,9 +114,12 @@ class DBHandler:
                 return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
-    def get_estacion_historico_rango(self, elemento: str, idema: str, fechaIni: str, fechaFin: str):
+    def get_estacion_historico_rango(self, elemento: str, idema: str, fechaIni: str, fechaFin: str,
+                                     column_names: Optional[list] = None):
+        columns = ', '.join(column_names) if column_names else '*'
         table_name = f"{elemento}_historico"
-        query = text(f"SELECT * FROM {table_name} WHERE idema = :idema AND fecha BETWEEN :fechaIni AND :fechaFin")
+        query = text(
+            f"SELECT {columns} FROM {table_name} WHERE idema = :idema AND fecha BETWEEN :fechaIni AND :fechaFin")
 
         with self.engine.connect() as connection:
             result = connection.execute(query, {"idema": idema, "fechaIni": fechaIni, "fechaFin": fechaFin})
@@ -95,9 +127,11 @@ class DBHandler:
                 return [{'column': col} for col in result.keys()]
             return [dict(zip(result.keys(), row)) for row in result]
 
-    def get_estaciones_historico_rango(self, elemento: str, fechaIni: str, fechaFin: str):
+    def get_estaciones_historico_rango(self, elemento: str, fechaIni: str, fechaFin: str,
+                                       column_names: Optional[list] = None):
+        columns = ', '.join(column_names) if column_names else '*'
         table_name = f"{elemento}_historico"
-        query = text(f"SELECT * FROM {table_name} WHERE fecha BETWEEN :fechaIni AND :fechaFin")
+        query = text(f"SELECT {columns} FROM {table_name} WHERE fecha BETWEEN :fechaIni AND :fechaFin")
 
         with self.engine.connect() as connection:
             result = connection.execute(query, {"fechaIni": fechaIni, "fechaFin": fechaFin})
