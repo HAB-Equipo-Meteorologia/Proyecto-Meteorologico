@@ -66,41 +66,49 @@ def merge_geojson_provincias(geojson_provincias: dict) -> dict:
     return geojson_provincias_merged
 
 def crear_mapa_choropleth(
-        
     geojson_data: dict,
     df: pd.DataFrame,
     id_col: str,
     value_col: str,
+    legend_name: str,
     tooltip_field: list = None,
     tooltip_alias: list = None,
-    legend_name: str = "Valor",
-    fill_color: str = "RdYlBu_r",
-    fill_opacity: float = 0.7,
-    line_opacity: float = 0.2,
-    center: list = [40.4168, -3.7038],
-    zoom_start: int = 6
 
 ) -> folium.Map:
+
+    fill_color = "RdYlBu_r"
+    fill_opacity = 0.7
+    line_opacity = 0.2
+    center = [40.4168, -3.7038]
+    zoom_start = 6
+
+
     df[id_col] = df[id_col].astype(str)
     nombre_dict = df.set_index(id_col)["nombre_prov"].to_dict()
     temp_dict = df.set_index(id_col)[value_col].to_dict()
 
+
     for feature in geojson_data["features"]:
         prov_id = str(feature["properties"].get(id_col))
         feature["properties"]["nombre_prov"] = nombre_dict.get(prov_id, "desconocido")
-        feature["properties"][value_col] = temp_dict.get(prov_id, "desconocido")
+        
+        valor = temp_dict.get(prov_id, None)
+        if valor is not None and isinstance(valor, (int, float)):
+            feature["properties"][value_col] = f"{valor:.2f}"
+        else:
+            feature["properties"][value_col] = "desconocido"
 
     if not tooltip_field:
         tooltip_field = ["nombre_prov", value_col]
     if not tooltip_alias:
-        tooltip_alias = ["Provincia:", "Temperatura Media:"]
+        tooltip_alias = ["Provincia:", "Valor:"]
 
     mapa = folium.Map(location=center, zoom_start=zoom_start)
 
     gdf = gpd.GeoDataFrame.from_features(geojson_data["features"])
-
     bounds = gdf.total_bounds
     mapa.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
+
 
     folium.Choropleth(
         geo_data=geojson_data,
@@ -113,11 +121,23 @@ def crear_mapa_choropleth(
         legend_name=legend_name
     ).add_to(mapa)
 
+
     tooltip = GeoJsonTooltip(
         fields=tooltip_field,
         aliases=tooltip_alias,
-        localize=True
+        localize=True,
+        style=(
+            "background-color: white; "
+            "color: #333333; "
+            "font-family: Arial, sans-serif; "
+            "font-size: 12px; "
+            "border: 1px solid gray; "
+            "border-radius: 3px; "
+            "padding: 5px;"
+        ),
+        max_width=800
     )
+
 
     folium.GeoJson(
         geojson_data,

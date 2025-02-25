@@ -107,7 +107,7 @@ def graficar_scatter_matrix():
         fig_scatter = px.scatter_matrix(df_merged, dimensions=variables)
         fig_scatter.update_traces(marker=dict(color="purple", size=6, opacity=0.7))
         fig_scatter.update_layout(
-            title="Pair Plot de Variables Meteorológicas",
+            title="Scatter Matrix de Variables Meteorológicas",
             width=1300,
             height=1300
         )
