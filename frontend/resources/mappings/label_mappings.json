@@ -1,0 +1,21 @@
+{
+  "columns": {
+    "tmed": "Temperatura Media (°C)",
+    "tmin": "Temperatura Mínima (°C)",
+    "tmax": "Temperatura Máxima (°C)",
+    "prec": "Precipitación (mm)",
+    "velmedia": "Velocidad Viento",
+    "racha": "Racha Viento",
+    "hr_media": "Humedad Relativa",
+    "hr_min": "Humedad Mínima",
+    "hr_max": "Humedad Máxima",
+    "pres_max": "Presión Máxima",
+    "pres_min": "Presión Mínima",
+    "sol": "Horas de Sol",
+    "hora_tmax": "Hora Temperatura Máxima",
+    "hora_tmin": "Hora Temperatura Mínima",
+    "hora_racha": "Hora Racha Viento",
+    "hora_hr_max": "Hora Humedad Máxima",
+    "hora_hr_min": "Hora Humedad Mínima"
+  }
+}

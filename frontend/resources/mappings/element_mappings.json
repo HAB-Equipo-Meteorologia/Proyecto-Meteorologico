@@ -1,0 +1,10 @@
+{
+  "numeric": {
+    "temperatura": ["tmed", "tmin", "tmax"],
+    "lluvia": ["prec"],
+    "viento": ["velmedia", "racha"],
+    "humedad": ["hr_media", "hr_min", "hr_max"],
+    "presion": ["pres_max", "pres_min"],
+    "sol": ["sol"]
+  }
+}

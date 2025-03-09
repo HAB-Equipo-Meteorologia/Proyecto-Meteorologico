@@ -10,5 +10,5 @@ logs/
 .DS_Store
 .toml
 .coverage
-data/historical
-.lct
+/notebooks/data/
+/frontend/.lct

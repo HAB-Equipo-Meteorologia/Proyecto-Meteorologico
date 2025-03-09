@@ -1,0 +1,38 @@
+{
+  "choropleth": {
+    "tmed": "Oranges",
+    "tmin": "OrRd",
+    "tmax": "Reds",
+    "prec": "Blues",
+    "velmedia": "BuGn",
+    "racha": "BuGn",
+    "hr_media": "YlGnBu",
+    "hr_min": "Blues",
+    "hr_max": "PuBu",
+    "pres_max": "BuPu",
+    "pres_min": "Purples",
+    "sol": "YlOrRd"
+  },
+  "histogram": {
+    "tmed": "Orange",
+    "tmin": "Yellow",
+    "tmax": "Red",
+    "prec": "LightBlue",
+    "velmedia": "LightGreen",
+    "racha": "Green",
+    "hr_media": "Cyan",
+    "hr_min": "LightBlue",
+    "hr_max": "Blue",
+    "pres_max": "Purple",
+    "pres_min": "Pink",
+    "sol": "Yellow"
+  },
+  "scatter": {
+    "temperatura": "Orange",
+    "lluvia": "LightBlue",
+    "viento": "LightGreen",
+    "humedad": "Cyan",
+    "presion": "Pink",
+    "sol": "Yellow"
+  }
+}

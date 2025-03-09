@@ -1,0 +1,33 @@
+{
+  "elements": {
+    "temperatura": {
+      "numeric": ["tmed", "tmax", "tmin"],
+      "time": ["hora_tmax", "hora_tmin"]
+    },
+    "lluvia": {
+      "numeric": ["prec"],
+      "time": []
+    },
+    "viento": {
+      "numeric": ["velmedia", "racha", "dir"],
+      "time": ["hora_racha"]
+    },
+    "humedad": {
+      "numeric": ["hr_media", "hr_min", "hr_max"],
+      "time": ["hora_hr_max", "hora_hr_min"]
+    },
+    "presion": {
+      "numeric": ["pres_max", "pres_min"],
+      "time": []
+    },
+    "sol": {
+      "numeric": ["sol"],
+      "time": []
+    }
+  },
+  "columns": {
+    "integer": ["hr_media", "hr_min", "hr_max"],
+    "float": ["tmed", "tmin", "tmax", "prec", "velmedia", "racha", "pres_max", "pres_min", "sol"],
+    "time": ["hora_tmin", "hora_tmax", "hora_racha", "hora_hr_max", "hora_hr_min"]
+  }
+}
