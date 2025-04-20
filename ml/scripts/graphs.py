@@ -13,16 +13,14 @@ def plot_forecast(result_df, predict_start, start_date, end_date):
     historical = result_df[result_df['fecha'] <= predict_start]
     future = result_df[result_df['fecha'] > predict_start]
 
-    marker_size = 4 if len(historical) < 50 else 0
-    line_width = 3 if len(historical) < 50 else 2
+    line_width = 2
 
     fig.add_trace(
         go.Scatter(
             x=historical['fecha'],
             y=historical['historical_tmed'],
-            mode='lines+markers',
+            mode='lines',
             line=dict(color='#1F77B4', width=line_width),
-            marker=dict(size=marker_size, color='#1F77B4'),
             name='Historical Data',
             showlegend=True
         )
@@ -44,9 +42,8 @@ def plot_forecast(result_df, predict_start, start_date, end_date):
         go.Scatter(
             x=gru_x,
             y=gru_y,
-            mode='lines+markers',
+            mode='lines',
             line=dict(color='#FF4B4B', width=line_width),
-            marker=dict(size=marker_size, color='#FF4B4B'),
             name='GRU Prediction',
             showlegend=True
         )
@@ -56,9 +53,8 @@ def plot_forecast(result_df, predict_start, start_date, end_date):
         go.Scatter(
             x=lstm_x,
             y=lstm_y,
-            mode='lines+markers',
+            mode='lines',
             line=dict(color='#FFA15A', width=line_width),
-            marker=dict(size=marker_size, color='#FFA15A'),
             name='LSTM Prediction',
             showlegend=True
         )
@@ -68,9 +64,8 @@ def plot_forecast(result_df, predict_start, start_date, end_date):
         go.Scatter(
             x=simple_rnn_x,
             y=simple_rnn_y,
-            mode='lines+markers',
+            mode='lines',
             line=dict(color='#FFD700', width=line_width),
-            marker=dict(size=marker_size, color='#FFD700'),
             name='SimpleRNN Prediction',
             showlegend=True
         )
@@ -85,9 +80,8 @@ def plot_forecast(result_df, predict_start, start_date, end_date):
         go.Scatter(
             x=prophet_x,
             y=prophet_y,
-            mode='lines+markers',
-            line=dict(color='#2CA02C', width=line_width),  # Green color for Prophet
-            marker=dict(size=marker_size, color='#2CA02C'),
+            mode='lines',
+            line=dict(color='#2CA02C', width=line_width),
             name='Prophet Prediction',
             showlegend=True
         )
